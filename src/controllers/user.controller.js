@@ -1,4 +1,5 @@
-const User = require("../modals/register.modal.js")
+const { User } = require("../modals/register.modal.js")
+const uploadOnCloudinary = require("../utils/cloudinary.js")
 const registerUser = async (req, res) => {
     const {
         name,
@@ -23,16 +24,22 @@ const registerUser = async (req, res) => {
     ) {
         res.status(400).json({ message: "Credentials are required" })
     }
-    const existedUser = await User.findOne({
-        $or: [{ name }, { email }],
-    })
+    const existedUser = await User.findOne({ email })
     if (existedUser) {
-        res.status(409).json({ message: "user already exist" })
+        res.status(409).json({ message: "user already enrolled" })
     }
+
+    const avatarLocalPath = req.files?.avatar[0]?.path
+
+    if (!avatarLocalPath) {
+        res.status(400).json({ message: "Avatar file is required local" })
+    }
+    const image = await uploadOnCloudinary(avatarLocalPath)
+
     const user = await User.create({
+        image,
         name,
         email,
-        // coverImage is optional so. code fatey na isiliye
         phone,
         address,
         coursetype,

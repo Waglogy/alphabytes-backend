@@ -1,8 +1,12 @@
 const { default: mongoose } = require("mongoose")
 const mongooose = require("mongoose")
-
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 const registerSchema = new mongooose.Schema(
     {
+        image: {
+            type: String,
+        },
         name: {
             type: String,
             required: true,
@@ -38,10 +42,45 @@ const registerSchema = new mongooose.Schema(
             type: String,
             required: true,
         },
+        refreshToken: {
+            type: String,
+        },
+        isAdmin: {
+            type: Boolean,
+        },
     },
     {
         timestamps: true,
     }
 )
 
-module.exports = mongoose.model("User", registerSchema)
+registerSchema.methods.isPasswordCorrect = async function (password) {
+    return await bcrypt.compare(password, this.password)
+}
+
+registerSchema.methods.generateAccessToken = function () {
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email,
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+        }
+    )
+}
+registerSchema.methods.generateRefreshToken = function () {
+    return jwt.sign(
+        {
+            _id: this._id,
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+        }
+    )
+}
+const User = mongoose.model("User", registerSchema)
+
+module.exports = { User }
