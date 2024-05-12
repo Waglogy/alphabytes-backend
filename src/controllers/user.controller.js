@@ -39,7 +39,7 @@ const registerUser = async (req, res) => {
     }
 
     console.log(req.files)
-    const avatarLocalPath = req.files?.avatar[0]?.path
+    const avatarLocalPath = req.files?.avatar?.path
     if (!avatarLocalPath) {
         return res.status(404).json({ message: "no avatar local path" })
     }
