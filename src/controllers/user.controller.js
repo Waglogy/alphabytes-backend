@@ -40,11 +40,6 @@ const registerUser = async (req, res) => {
 
     const avatarLocalPath = req.files?.avatar[0]?.path
 
-    if (!avatarLocalPath) {
-        return res
-            .status(400)
-            .json({ message: "Avatar file is required local" })
-    }
     const image = await uploadOnCloudinary(avatarLocalPath)
 
     const user = await User.create({
