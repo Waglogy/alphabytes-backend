@@ -1,5 +1,4 @@
-const cloudinary = require("cloudinary")
-const fs = require("fs")
+const cloudinary = require("cloudinary").v2
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -7,19 +6,34 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
-const uploadOnCloudinary = async (localFilePath) => {
+const imageUploader = async (...image_details) => {
     try {
-        if (!localFilePath) return null
-        const response = await cloudinary.uploader.upload(localFilePath, {
-            resource_type: "auto",
+        const [image_path, folder] = image_details
+        const result = await cloudinary.uploader.upload(image_path, {
+            folder: `${process.env.CLOUDINARY_FOLDER_NAME}/${folder}`,
         })
-        console.log("file has been uploaded on cloudinary:" + response.url)
-        fs.unlinkSync(localFilePath)
-        return response
+        return result
     } catch (error) {
-        fs.unlinkSync(localFilePath)
-        return null
+        throw new AppError(StatusCodes.NOT_FOUND, error.message)
     }
 }
 
-module.exports = { uploadOnCloudinary }
+const imageRemover = async (imageId) => {
+    try {
+        const result = await cloudinary.api.delete_resources(imageId, {
+            type: "upload",
+            resource_type: "image",
+        })
+        return result
+    } catch (error) {
+        throw new AppError(
+            StatusCodes.NOT_FOUND,
+            "Image Not Found. Please try again."
+        )
+    }
+}
+
+module.exports = {
+    imageUploader,
+    imageRemover,
+}
