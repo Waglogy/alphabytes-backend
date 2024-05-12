@@ -38,6 +38,7 @@ const registerUser = async (req, res) => {
         return res.status(409).json({ message: "user already enrolled" })
     }
 
+    console.log(req.files)
     const avatarLocalPath = req.files?.avatar[0]?.path
     if (!avatarLocalPath) {
         return res.status(404).json({ message: "no avatar local path" })
