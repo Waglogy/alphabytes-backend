@@ -11,7 +11,16 @@ const registerUser = async (req, res) => {
         gaurdianname,
         parentcontact,
     } = req.body
-
+    console.log(
+        name,
+        email,
+        phone,
+        address,
+        coursetype,
+        aadhar,
+        gaurdianname,
+        parentcontact
+    )
     if (
         !name ||
         !email ||
