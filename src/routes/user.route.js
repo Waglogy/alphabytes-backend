@@ -7,7 +7,7 @@ const {
 const router = express.Router()
 const multer = require("../middlewares/multer")
 
-router.route("/register").post(multer.array("image"), registerUser)
+router.route("/register").post(multer.array("avatar"), registerUser)
 router.route("/login").post(loginUser)
 router.route("/refresh-token").post(refreshAccesstoken)
 
