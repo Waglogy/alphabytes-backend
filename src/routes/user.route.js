@@ -5,9 +5,17 @@ const {
     refreshAccesstoken,
 } = require("../controllers/login.controller.js")
 const router = express.Router()
-const multer = require("../middlewares/multer")
+const { upload } = require("../middlewares/multer.js")
 
-router.route("/register").post(multer.array("avatar"), registerUser)
+router.route("/register").post(
+    upload.fields([
+        {
+            name: "avatar",
+            maxCount: 1,
+        },
+    ]),
+    registerUser
+)
 router.route("/login").post(loginUser)
 router.route("/refresh-token").post(refreshAccesstoken)
 
