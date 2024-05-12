@@ -38,9 +38,9 @@ const registerUser = async (req, res) => {
         return res.status(409).json({ message: "user already enrolled" })
     }
 
-    const avatarLocalPath = req.files?.avatar[0]?.path
+    //const avatarLocalPath = req.files?.avatar[0]?.path
 
-    const image = await uploadOnCloudinary(avatarLocalPath)
+    //const image = await uploadOnCloudinary(avatarLocalPath)
 
     const user = await User.create({
         name,
