@@ -6,7 +6,7 @@ const registerUser = async (req, res) => {
         email,
         phone,
         address,
-        coursetype,
+        courseType,
         aadhar,
         gaurdianname,
         parentcontact,
@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
         email,
         phone,
         address,
-        coursetype,
+        courseType,
         aadhar,
         gaurdianname,
         parentcontact
@@ -26,7 +26,7 @@ const registerUser = async (req, res) => {
         !email ||
         !phone ||
         !address ||
-        !coursetype ||
+        !courseType ||
         !aadhar ||
         !gaurdianname ||
         !parentcontact
