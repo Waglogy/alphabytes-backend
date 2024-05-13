@@ -11,8 +11,10 @@ app.use(express.static("public"))
 const userRouter = require("../src/routes/user.route.js")
 const contactRouter = require("../src/routes/contact.route.js")
 const newsRouter = require("../src/routes/news.routes.js")
+const courseRouter = require("../src/routes/course.route.js")
 app.use("/user", userRouter)
 app.use("/contact", contactRouter)
 app.use("/news", newsRouter)
+app.use("/course", courseRouter)
 
 module.exports = app

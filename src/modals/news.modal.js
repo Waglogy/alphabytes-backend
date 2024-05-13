@@ -13,6 +13,9 @@ const newsSchema = new mongoose.Schema(
         image: {
             type: String,
         },
+        links: {
+            type: String,
+        },
     },
     { timestamps: true }
 )

@@ -1,7 +1,7 @@
 const { News } = require("../modals/news.modal")
 const addNews = async (req, res) => {
-    const { title, content } = req.body
-    if (!title || !content) {
+    const { title, content, links } = req.body
+    if (!title || !content || !links) {
         return res.status(200).json({ message: "fill in all the fields" })
     }
     // const imageLocalPath = req.files?.image[0]?.path
@@ -14,6 +14,7 @@ const addNews = async (req, res) => {
     await News.create({
         title,
         content,
+        links,
         // image,
     })
 
