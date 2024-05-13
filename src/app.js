@@ -9,6 +9,8 @@ app.use(express.static("public"))
 app.use(cors())
 
 const userRouter = require("../src/routes/user.route.js")
+const contactRouter = require("../src/routes/contact.route.js")
 app.use("/user", userRouter)
+app.use("/contact", contactRouter)
 
 module.exports = app
